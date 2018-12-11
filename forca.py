@@ -1,5 +1,5 @@
-# -*- coding: UTF-8 -*-
-# Jogo da forcaem Python (Primeiro programa)
+# coding = UTF-8
+# Jogo da forca em Python (Primeiro programa)
 # O jogador tem 10 tentativas para acertar a palavra
 # Número de jogadores: 1 ou mais
 # Caso o número de jogadores seja 1:
@@ -12,7 +12,7 @@ import os
 import random
 from palavras import palavraAleatoria, dicaAleatoria
 
-listaVogais = ['a', 'e', 'i', 'o', 'u']
+listaVogais = ['a', 'á', 'ã', 'â', 'e', 'é', 'ê', 'i', 'í', 'o', 'ó', 'ô', 'u', 'ú']
 
 
 def jogar(palavraEscolhida, dica):
@@ -24,8 +24,8 @@ def jogar(palavraEscolhida, dica):
         palavraEscolhida = palavraAleatoria(index)
         dica = dicaAleatoria(index)
 
-    listaLetras = []
     letrasJogadas = []
+    listaLetras = []
     palavraDesvendada = []
     tentativas = 0
     acertou = False
@@ -41,15 +41,17 @@ def jogar(palavraEscolhida, dica):
 
         palavraDesvendada.append('_')
 
-    # Separa a palavra em letras e guarda em outra lista, para facilitar buscas e comparações
     for i in range(0, len(palavraEscolhida)):
         listaLetras.append(palavraEscolhida[i].lower())
 
     print('\nVocê tem 10 tentativas para acertar a palavra.\nDica: {}'.format(dica))
-    letra = str(input('Informe uma letra: '))
+    letra = input('Informe uma letra: ')
 
-    while acertou == False or tentativas != 10:
-        letrasJogadas.append(letra)
+    while not acertou or tentativas != 10:
+        letrasJogadas.append(letra.upper())
+        visitou = 0
+
+        # Caso nao seja uma letra acentuada
         for j in range(0, len(listaLetras)):
             # Caso nao seja uma letra acentuada
             if letra == listaLetras[j]:
@@ -57,48 +59,21 @@ def jogar(palavraEscolhida, dica):
                 palavraDesvendada[j] = letra.upper()
 
             # Caso seja uma letra acentuada
-            for v in range(0, 5):
-                if letra == listaVogais[v]:
-                    if 'ã' in palavraEscolhida.lower():
-                        acertou = True
-                        palavraDesvendada[palavraEscolhida.lower().index('ã')] = 'Ã'
-                    elif 'â' in palavraEscolhida.lower():
-                        acertou = True
-                        palavraDesvendada[palavraEscolhida.lower().index('â')] = 'Â'
-                    elif 'ê' in palavraEscolhida.lower():
-                        acertou = True
-                        palavraDesvendada[palavraEscolhida.lower().index('ê')] = 'Ê'
-                    elif 'ô' in palavraEscolhida.lower():
-                        acertou = True
-                        palavraDesvendada[palavraEscolhida.lower().index('ô')] = 'Ô'
-                    elif 'õ' in palavraEscolhida.lower():
-                        acertou = True
-                        palavraDesvendada[palavraEscolhida.lower().index('õ')] = 'Õ'
-                    elif 'á' in palavraEscolhida.lower():
-                        acertou = True
-                        palavraDesvendada[palavraEscolhida.lower().index('á')] = 'Á'
-                    elif 'é' in palavraEscolhida.lower():
-                        acertou = True
-                        palavraDesvendada[palavraEscolhida.lower().index('é')] = 'É'
-                    elif 'í' in palavraEscolhida.lower():
-                        acertou = True
-                        palavraDesvendada[palavraEscolhida.lower().index('í')] = 'Í'
-                    elif 'ó' in palavraEscolhida.lower():
-                        acertou = True
-                        palavraDesvendada[palavraEscolhida.lower().index('ó')] = 'Ó'
-                    elif 'ú' in palavraEscolhida.lower():
-                        acertou = True
-                        palavraDesvendada[palavraEscolhida.lower().index('ú')] = 'Ú'
+            for v in range(0, len(listaVogais)):
+                if listaVogais[v] in palavraEscolhida.lower() and letra in listaVogais and \
+                                                        palavraDesvendada[j] != letra and letra not in letrasJogadas:
+                    acertou = True
+                    palavraDesvendada[palavraEscolhida.lower().index(listaVogais[v])] = listaVogais[v].upper()
 
         print('\nDica: {}'.format(dica))
         print('Palavra: {}'.format(palavraDesvendada))
         print('Letras jogadas: {}'.format(letrasJogadas))
 
-        if acertou == True:
+        if acertou:
             print('Tentativas: {}\n'.format(tentativas))
-
-        tentativas = tentativas + 1
-        print('Tentativas: {}\n'.format(tentativas))
+        else:
+            tentativas = tentativas + 1
+            print('Tentativas: {}\n'.format(tentativas))
 
         print('1 - Responder\n2 - Tentar mais uma letra')
         op = int(input('Opção: '))
@@ -118,7 +93,7 @@ def jogar(palavraEscolhida, dica):
 
         else:
             acertou = False
-            letra = str(input('\nInforme uma letra: '))
+            letra = input('\nInforme uma letra: ')
 
 
 print("******  Seja bem-vindx ao jogo da forca  ******")

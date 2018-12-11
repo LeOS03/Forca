@@ -3,6 +3,8 @@ Jogo da Forca na linguagem Python. Projeto experimental utilizando a linguagem p
 
 Versão do Python: 3.6.7
 
+- O jogo evoluirá aos poucos...
+
 * O jogador tem 10 tentativas para acertar a palavra
 * Número de jogadores: 1 ou mais
 * Caso o número de jogadores seja 1:
